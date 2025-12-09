@@ -25,6 +25,8 @@ int setup_uinput() {
     }
 
 #ifdef SM_N960F
+    ioctl(ufd, UI_SET_PROPBIT, INPUT_PROP_DIRECT);
+    
     ioctl(ufd, UI_SET_EVBIT, EV_ABS);
     ioctl(ufd, UI_SET_EVBIT, EV_KEY);
     ioctl(ufd, UI_SET_EVBIT, EV_SYN);
@@ -35,11 +37,11 @@ int setup_uinput() {
     ioctl(ufd, UI_SET_ABSBIT, ABS_DISTANCE);
     ioctl(ufd, UI_SET_ABSBIT, ABS_TILT_X);
     ioctl(ufd, UI_SET_ABSBIT, ABS_TILT_Y);
+    ioctl(ufd, UI_SET_ABSBIT, ABS_MISC);
 
     ioctl(ufd, UI_SET_KEYBIT, BTN_TOOL_PEN);
     ioctl(ufd, UI_SET_KEYBIT, BTN_TOUCH);
-
-    ioctl(ufd, UI_SET_KEYBIT, INPUT_PROP_DIRECT);
+    ioctl(ufd, UI_SET_KEYBIT, BTN_STYLUS);
 #else
 #error "You must select a Note 9 model to build for"
 #endif
@@ -77,10 +79,10 @@ int setup_uinput() {
     dev.absflat[ABS_TILT_Y] = S_PEN_TILT_Y_FLAT;
     dev.absfuzz[ABS_TILT_Y] = S_PEN_TILT_Y_FUZZ;
 
-    dev.id.bustype = BUS_I2C; // This is how the Note 9 interfaces the S-Pen
-    dev.id.vendor = 0x4e8; // Samsung vendor
-    dev.id.product = 0x6864; // The Galaxy Note 9's USB Device ID
-    dev.id.version = 9; // I made the version 9 cuz its a Note 9
+    dev.id.bustype = BUS_I2C; // This is how the Note 9 interfaces the S-Pen (The Samsung Linux kernel mentions it)
+    dev.id.vendor = 0x4e8; // Samsung Vendor ID
+    dev.id.product = 0x6864; // Samsung USB Device ID (This one is for the Note 9)
+    dev.id.version = 9; // I made it version 9 cuz it's the Note 9
 
     write(ufd, &dev, sizeof(dev));
     ioctl(ufd, UI_DEV_CREATE);
@@ -119,6 +121,7 @@ int main() {
     while(read(client, &ev, sizeof(ev)) > 0)
         write(ufd, &ev, sizeof(ev));
 
+    close(ufd);
 close_socket:
     close(sockfd);
 exit:

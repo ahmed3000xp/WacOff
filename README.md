@@ -91,10 +91,7 @@ xsetwacom set "Note9 S-Pen Tablet stylus" Rotate cw
   - Pressure-sensitivity works
   - Works as a standard Linux compatible drawing tablet
   - 280Hz works perfectly (lags sometimes if your link is bad)
-
-### Stuff I found but I couldn't support
-
-   - The button on the S-Pen (that's literally it and it registers as evdev KEY 331)
+  - The button on the S-Pen works
 
 ### Supported Galaxy Note 9 models
 
