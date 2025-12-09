@@ -10,11 +10,11 @@ WacOff is a Free and Open Source CLI app designed to pass through the Samsung Ga
 
 ### For Linux based Systems:
 
-- **Debian/Ubuntu/Ubuntu-based:** `sudo apt install gcc-aarch64-linux-gnu gcc-aarch64-linux-gnu libc6-dev-arm64-cross linux-headers-$(uname -r)-arm64-cross gcc make git xf86-input-wacom`
+- **Debian/Ubuntu/Ubuntu-based:** `sudo apt install gcc-aarch64-linux-gnu gcc-aarch64-linux-gnu libc6-dev-arm64-cross linux-headers-$(uname -r)-arm64-cross gcc make git xf86-input-wacom android-tools-adb`
 
-- **Fedora/Fedora-based:** `sudo dnf install @development-tools gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu glibc-aarch64-linux-gnu glibc-devel-aarch64-linux-gnu linux-headers gcc make git xorg-x11-drv-wacom`
+- **Fedora/Fedora-based:** `sudo dnf install @development-tools gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu glibc-aarch64-linux-gnu glibc-devel-aarch64-linux-gnu linux-headers gcc make git xorg-x11-drv-wacom android-tools`
 
-- **Arch/Arch-based:** `sudo pacman -S --noconfirm aarch64-linux-gnu-gcc aarch64-linux-gnu-binutils aarch64-linux-gnu-glibc aarch64-linux-gnu-linux-api-headers gcc make git xf86-input-wacom`
+- **Arch/Arch-based:** `sudo pacman -S --noconfirm aarch64-linux-gnu-gcc aarch64-linux-gnu-binutils aarch64-linux-gnu-glibc aarch64-linux-gnu-linux-api-headers gcc make git xf86-input-wacom android-tools`
 
 ### For Windows users:
 ¯\_(ツ)_/¯
