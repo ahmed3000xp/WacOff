@@ -97,6 +97,10 @@ xsetwacom set "Note9 S-Pen Tablet stylus" Rotate cw
 
   - SM-N960F (This is my Note 9's model, others might work tho let me know if one did)
 
+#### Extra notes
+
+The server and client both use port 5000 to communicate with each other so on your firewall you will have to open port 5000
+
 #### License
 
 This project is licensed under the GNU GPL-3.0 license.
