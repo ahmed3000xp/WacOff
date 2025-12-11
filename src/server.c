@@ -20,7 +20,7 @@
 int setup_uinput() {
     int ufd = open("/dev/uinput", O_WRONLY | O_NONBLOCK);
     if(ufd < 0){
-        printf("server.c::ERROR::socket() open syscall failed to open /dev/uinput and returned code %d\n", ufd);
+        printf("server.c::ERROR::open() open syscall failed to open /dev/uinput and returned code %d\n", ufd);
         return -1;
     }
 

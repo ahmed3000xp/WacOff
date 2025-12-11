@@ -1,7 +1,7 @@
 # WacOff Project
 
 ## Name Choice
-I choose that name because Wacom + Wack your stuff (damn this sounds weird ngl) = WacOff (Sheikh Assim Al Hakeem don't call me)
+I choose that name because Wacom + Off = WacOff (Sheikh Assim Al Hakeem don't call me)
 
 ## Overview
 WacOff is a Free and Open Source CLI app designed to pass through the Samsung Galaxy Note 9's S-Pen to your Linux machine using the network and show up as a drawing tablet.... and turns your Note 9 into a Wacom without you needing to work at McDonald's again (don't gotta put the fries in the bag)
