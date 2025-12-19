@@ -25,23 +25,23 @@ int setup_uinput() {
     }
 
 #ifdef SM_N960F
-    ioctl(ufd, UI_SET_PROPBIT, INPUT_PROP_DIRECT);
+    if(ioctl(ufd, UI_SET_PROPBIT, INPUT_PROP_DIRECT) < 0) perror("ioctl");
     
-    ioctl(ufd, UI_SET_EVBIT, EV_ABS);
-    ioctl(ufd, UI_SET_EVBIT, EV_KEY);
-    ioctl(ufd, UI_SET_EVBIT, EV_SYN);
+    if(ioctl(ufd, UI_SET_EVBIT, EV_ABS) < 0) perror("ioctl");
+    if(ioctl(ufd, UI_SET_EVBIT, EV_KEY) < 0) perror("ioctl");
+    if(ioctl(ufd, UI_SET_EVBIT, EV_SYN) < 0) perror("ioctl");
 
-    ioctl(ufd, UI_SET_ABSBIT, ABS_X);
-    ioctl(ufd, UI_SET_ABSBIT, ABS_Y);
-    ioctl(ufd, UI_SET_ABSBIT, ABS_PRESSURE);
-    ioctl(ufd, UI_SET_ABSBIT, ABS_DISTANCE);
-    ioctl(ufd, UI_SET_ABSBIT, ABS_TILT_X);
-    ioctl(ufd, UI_SET_ABSBIT, ABS_TILT_Y);
-    ioctl(ufd, UI_SET_ABSBIT, ABS_MISC);
+    if(ioctl(ufd, UI_SET_ABSBIT, ABS_X) < 0) perror("ioctl");
+    if(ioctl(ufd, UI_SET_ABSBIT, ABS_Y) < 0) perror("ioctl");
+    if(ioctl(ufd, UI_SET_ABSBIT, ABS_PRESSURE) < 0) perror("ioctl");
+    if(ioctl(ufd, UI_SET_ABSBIT, ABS_DISTANCE) < 0) perror("ioctl");
+    if(ioctl(ufd, UI_SET_ABSBIT, ABS_TILT_X) < 0) perror("ioctl");
+    if(ioctl(ufd, UI_SET_ABSBIT, ABS_TILT_Y) < 0) perror("ioctl");
+    if(ioctl(ufd, UI_SET_ABSBIT, ABS_MISC) < 0) perror("ioctl");
 
-    ioctl(ufd, UI_SET_KEYBIT, BTN_TOOL_PEN);
-    ioctl(ufd, UI_SET_KEYBIT, BTN_TOUCH);
-    ioctl(ufd, UI_SET_KEYBIT, BTN_STYLUS);
+    if(ioctl(ufd, UI_SET_KEYBIT, BTN_TOOL_PEN) < 0) perror("ioctl");
+    if(ioctl(ufd, UI_SET_KEYBIT, BTN_TOUCH) < 0) perror("ioctl");
+    if(ioctl(ufd, UI_SET_KEYBIT, BTN_STYLUS) < 0) perror("ioctl");
 #else
 #error "You must select a Note 9 model to build for"
 #endif
@@ -84,8 +84,8 @@ int setup_uinput() {
     dev.id.product = 0x6864; // Samsung USB Device ID (This one is for the Note 9)
     dev.id.version = 9; // I made it version 9 cuz it's the Note 9
 
-    write(ufd, &dev, sizeof(dev));
-    ioctl(ufd, UI_DEV_CREATE);
+    if(write(ufd, &dev, sizeof(dev)) < 0) perror("write");
+    if(ioctl(ufd, UI_DEV_CREATE) < 0) perror("ioctl");
 
     return ufd;
 }
@@ -105,10 +105,23 @@ int main() {
     addr.sin_port = htons(5000);
     addr.sin_addr.s_addr = INADDR_ANY;
 
-    bind(sockfd, (struct sockaddr*)&addr, sizeof(addr));
-    listen(sockfd, 1);
+    if(bind(sockfd, (struct sockaddr*)&addr, sizeof(addr)) < 0){
+        perror("bind");
+        return_code = -1;
+        goto close_socket;
+    }
+    if(listen(sockfd, 1) < 0){
+        perror("listen");
+        return_code = -1;
+        goto close_socket;
+    }
 
     int client = accept(sockfd, NULL, NULL);
+    if(client < 0){
+        perror("accept");
+        return_code = -1;
+        goto close_socket;
+    }
     printf("Client connected\n");
 
     int ufd = setup_uinput();
@@ -121,6 +134,9 @@ int main() {
     while(read(client, &ev, sizeof(ev)) > 0)
         write(ufd, &ev, sizeof(ev));
 
+    printf("Client disconnected\n");
+
+    ioctl(ufd, UI_DEV_DESTROY);
     close(ufd);
 close_socket:
     close(sockfd);
