@@ -25,6 +25,7 @@ void (*the_void)(void);
 
 int main(){
     int return_code = 0;
+    int setsockopt_flag = 1;
     
     char server_ip[64];
 
@@ -59,6 +60,7 @@ int main(){
         return_code = -1;
         goto close_server_sock;
     }
+    setsockopt(server_sock, IPPROTO_TCP, TCP_NODELAY, (char *)&setsockopt_flag, sizeof(int));
 
     struct input_event s_pen_ev;
     while(read(s_pen_fd, &s_pen_ev, sizeof(s_pen_ev)) > 0)

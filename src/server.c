@@ -92,6 +92,7 @@ int setup_uinput() {
 
 int main() {
     int return_code = 0;
+    int setsockopt_flag = 1;
 
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if(sockfd < 0){
@@ -129,6 +130,7 @@ int main() {
         return_code = -1;
         goto close_socket;
     }
+    setsockopt(sockfd, IPPROTO_TCP, TCP_NODELAY, (char *)&setsockopt_flag, sizeof(int));
 
     struct input_event ev;
     while(read(client, &ev, sizeof(ev)) > 0)
